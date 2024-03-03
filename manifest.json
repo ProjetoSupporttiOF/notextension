@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "Supportti - BD",
+    "description": "Base de conhecimento da Supportti",
+    "version": "1.0",
+    "permissions": ["scripting", "activeTab"],
+    "action": {
+        "default_popup": "index.html"
+      }
+    }

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+</head>
+<style>
+    .centralizado {
+        width: 600px;
+        height: auto;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .cabe{
+        text-align: center;
+    }
+    .image{
+        background-color: #f0f0f0;
+        display: inline-block; 
+    }
+</style>
+
+<body>
+    <form id="meuFormulario">
+        <div class="d-flex align-items-center justify-content-center" style="height: vh;">
+            <div class="centralizado">
+                <div class="mt-3"></div>
+                <div class="cabe">
+                    <img class="image" src="unnamed.png" alt="desc" width="100px">
+                </div>
+                <div class="mt-5"></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <br>
+                        <label for="titulo" class="form-label">Título:</label>
+                        <input class="form-control" type="text" id="titulo" name="titulo" placeholder="Título"
+                            aria-label="default input example">
+                    </div>
+                    <div class="col-md-6">
+                        <br>
+                        <label for="problema" class="form-label">Problema:</label>
+                        <input class="form-control" type="text" id="problema" name="problema" placeholder="Problema"
+                            aria-label="default input example">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <br>
+                        <label for="cliente" class="form-label">Cliente:</label>
+                        <input class="form-control" type="text" id="cliente" name="cliente" placeholder="Cliente"
+                            aria-label="default input example">
+                    </div>
+                    <div class="col-md-6">
+                        <br>
+                        <label for="solucao" class="form-label">Solução:</label>
+                        <textarea class="form-control" id="solucao" name="solucao" style="height: 200px;"></textarea>
+                    </div>
+                </div>
+                <div class="mt-3 text-center">
+                    <button type="button" onclick="adicionarNoBanco()">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous">
+    </script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyDFWn3MOlX8W08656EJGsuaqpAI0_y_OZU",
+            authDomain: "bdsupportti.firebaseapp.com",
+            projectId: "bdsupportti",
+            storageBucket: "bdsupportti.appspot.com",
+            messagingSenderId: "408998021645",
+            appId: "1:408998021645:web:394fa909743e7544466344",
+            measurementId: "G-DDSP5NESCT"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        
+        var db = firebase.firestore();
+
+        function adicionarNoBanco() {
+            var formulario = document.getElementById('meuFormulario');
+            var titulo = formulario.elements['titulo'].value;
+            var problema = formulario.elements['problema'].value;
+            var cliente = formulario.elements['cliente'].value;
+            var solucao = formulario.elements['solucao'].value;
+
+            
+            if (titulo && problema && cliente && solucao) {
+                
+                db.collection("conhecimento").add({
+                    titulo: titulo,
+                    problema: problema,
+                    cliente: cliente,
+                    solucao: solucao
+                })
+                .then(function(docRef) {
+                    console.log("Documento adicionado com ID: ", docRef.id);
+                })
+                .catch(function(error) {
+                    console.error("Erro ao adicionar documento: ", error);
+                });
+
+                
+                formulario.reset();
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
